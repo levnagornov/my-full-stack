@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Response, Depends, Cookie
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Optional
-
 from app.auth import service, schemas
 from app.core.database import get_session
 

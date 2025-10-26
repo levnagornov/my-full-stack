@@ -37,7 +37,10 @@ export class Profile {
         this.auth.setAccessToken(res.access_token);
         this.msg = 'Refreshed token';
       },
-      error: (err) => { console.error(err); this.msg = 'Refresh failed'; }
+      error: (err) => { 
+        console.error(err);
+        this.msg = "Refresh failed. " + err.message
+      }
     });
   }
 }

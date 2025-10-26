@@ -3,6 +3,7 @@ from jose import jwt, JWTError
 from passlib.context import CryptContext
 from uuid import uuid4
 import redis.asyncio as aioredis
+import bcrypt
 
 from app.core.config import settings
 
@@ -15,11 +16,19 @@ redis_client = aioredis.from_url(
 
 
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    password_in_bytes: bytes = password.encode('utf-8')
+    salt: bytes = bcrypt.gensalt()
+    hashed_password: bytes = bcrypt.hashpw(password=password_in_bytes, salt=salt)
+    return hashed_password.decode('utf-8')
+    # return pwd_context.hash(password)
 
 
-def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+def verify_password(password: str, hashed: str) -> bool:
+    return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
+
+
+# def verify_password(plain: str, hashed: str) -> bool:
+#     return pwd_context.verify(plain, hashed)
 
 
 def create_access_token(username: str) -> str:

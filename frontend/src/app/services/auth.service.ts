@@ -14,6 +14,10 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, data, { withCredentials: true });
   }
 
+  register(data: { username: string; password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, data, { withCredentials: true });
+  }
+
   refresh(): Observable<any> {
     return this.http.post(`${this.apiUrl}/refresh`, {}, { withCredentials: true });
   }
