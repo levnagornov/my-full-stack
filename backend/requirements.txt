@@ -1,11 +1,12 @@
 fastapi
+fastapi[standard]
 uvicorn[standard]
+redis[asyncio]
 asyncpg
 sqlalchemy[asyncio]
 alembic
 python-jose[cryptography]
 passlib[bcrypt]
-redis[asyncio]
 pydantic-settings
 python-dotenv
-fastapi[standard]
+python-json-logger

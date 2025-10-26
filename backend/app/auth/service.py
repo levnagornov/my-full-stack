@@ -21,12 +21,14 @@ async def register_user(data: schemas.RegisterRequest, session: AsyncSession):
     await session.commit()
     return {"detail": "User created"}
 
+
 async def authenticate_user(username: str, password: str, session: AsyncSession):
     q = await session.execute(select(models.User).where(models.User.username == username))
     user = q.scalar_one_or_none()
-    if not user or not security.verify_password(password, user.password_hash): 
+    if not user or not security.verify_password(password, user.password_hash):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     return user
+
 
 async def login_user(data: schemas.LoginRequest, response: Response, session: AsyncSession):
     user = await authenticate_user(data.username, data.password, session)
@@ -45,6 +47,7 @@ async def login_user(data: schemas.LoginRequest, response: Response, session: As
     )
     return schemas.TokenResponse(access_token=access)
 
+
 async def refresh_tokens(response: Response, refresh_token: Optional[str] = Cookie(None)):
     if not refresh_token:
         raise HTTPException(status_code=401, detail="No refresh token")
@@ -57,7 +60,8 @@ async def refresh_tokens(response: Response, refresh_token: Optional[str] = Cook
     username = payload.get("sub")
 
     if not await security.is_refresh_valid(jti, username):
-        raise HTTPException(status_code=401, detail="Refresh token revoked or expired")
+        raise HTTPException(
+            status_code=401, detail="Refresh token revoked or expired")
 
     await security.revoke_refresh_token(jti)
 
@@ -76,6 +80,7 @@ async def refresh_tokens(response: Response, refresh_token: Optional[str] = Cook
     )
 
     return schemas.TokenResponse(access_token=new_access)
+
 
 async def logout_user(response: Response, refresh_token: Optional[str] = Cookie(None)):
     if refresh_token:

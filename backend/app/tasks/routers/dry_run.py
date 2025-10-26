@@ -4,6 +4,7 @@ from app.core.database import get_session
 
 router = APIRouter(prefix="/dry-run", tags=["Dry run"])
 
+
 @router.post("/run")
 async def run_dry_run():
     return {"status": "ok", "message": "Dry run is done"}

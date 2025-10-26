@@ -16,9 +16,11 @@ class CommitRun(Base):
     __tablename__ = "commit_runs"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    static_data_implementation_date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    execution_date: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, nullable=False)
-    
+    static_data_implementation_date: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False)
+    execution_date: Mapped[datetime] = mapped_column(
+        DateTime, default=datetime.now, nullable=False)
+
     affected_tables: Mapped[list["AffectedTable"]] = relationship(
         "AffectedTable",
         back_populates="commit_run",
@@ -32,9 +34,10 @@ class AffectedTable(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
-    commit_run_id: Mapped[int] = mapped_column(ForeignKey("commit_runs.id.id", ondelete="CASCADE"))
+    commit_run_id: Mapped[int] = mapped_column(
+        ForeignKey("commit_runs.id.id", ondelete="CASCADE"))
 
     commit_run: Mapped["CommitRun"] = relationship(
-        "CommitRun", 
+        "CommitRun",
         back_populates="affected_tables"
     )
