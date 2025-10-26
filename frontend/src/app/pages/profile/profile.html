@@ -1,0 +1,7 @@
+<div>
+  <h3>Profile</h3>
+  <button (click)="loadProfile()">Load Profile (requires access token)</button>
+  <button (click)="refresh()">Refresh Access Token</button>
+  <pre *ngIf="profile">{{ profile | json }}</pre>
+  <div>{{msg}}</div>
+</div>

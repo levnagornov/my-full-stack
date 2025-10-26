@@ -1,0 +1,17 @@
+<div class="navbar">
+  <a routerLink="/home" routerLinkActive="active">Home</a>
+  <div class="dropdown">
+    <button class="dropbtn">Tasks
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a routerLink="/dry-run" routerLinkActive="active">Dry run</a>
+      <a routerLink="/commit-run" routerLinkActive="active">Commit run</a>
+      <a routerLink="/full-load" routerLinkActive="active">Full load</a>
+    </div>
+  </div>
+<a routerLink="/login" routerLinkActive="active" class="split" >Login</a>
+  <a routerLink="/profile" routerLinkActive="active" class="split" >Profile</a>
+</div>
+
+<router-outlet />

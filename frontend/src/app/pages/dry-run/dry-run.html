@@ -1,0 +1,29 @@
+<section>
+    <form (ngSubmit)="submit()">
+        <div class="container">
+            <h1>Task - Dry run</h1>
+            <fieldset>
+                <legend>Test information</legend>
+                <label for="env">Environment: <select name="environment" id="env"> 
+                        <option value="oa2">OA2</option>
+                        <option value="oa3">OA3</option>
+                        <option value="oa4">OA4</option>
+                        <option value="oa5">OA5</option>
+                        <option value="oa6">OA6</option>
+                        <option value="oa7">OA7</option>
+                        <option value="oa8">OA8</option>
+                    </select></label>
+                <br>
+                <label>Enter project name: <input type="text" name="catphotourl" placeholder="My onboarding test"
+                        required></label>
+                <br>
+                <label>Enter iteration name: <input type="text" name="catphotourl" placeholder="R1R1" required></label>
+                <br>
+                <label>Enter static data implemtation date: <input type="date" name="reporting-date" required></label>
+                <br>
+                <label>Upload SD files <input type="file" id="fileInput" required/></label>
+            </fieldset>
+            <button type="submit" class="submitbtn">Submit</button>
+        </div>
+    </form>
+</section>
