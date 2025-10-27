@@ -12,7 +12,6 @@ from app.core.logging import setup_logging
 from app.core.database import engine, Base
 
 
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # after startup

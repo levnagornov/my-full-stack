@@ -4,7 +4,8 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 from app.core.database import Base
-from app.auth import models   # импорт всех моделей, чтобы metadata включала их
+from app.auth import models
+
 
 config = context.config
 fileConfig(config.config_file_name)
