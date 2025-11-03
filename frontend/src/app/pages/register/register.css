@@ -1,0 +1,11 @@
+.valid {
+  border-left: 5px solid #42A948;
+}
+
+.required {
+  border-left: 5px solid #a94442;
+}
+
+.validation-error {
+    color: #a94442;
+}

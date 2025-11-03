@@ -10,7 +10,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = localStorage.getItem('access_token');
 
     let authReq = req;
     if (accessToken) {
@@ -24,9 +24,9 @@ export class AuthInterceptor implements HttpInterceptor {
         if (err.status === 401) {
           return this.authService.refresh().pipe(
             switchMap(res => {
-              localStorage.setItem('accessToken', res.accessToken);
+              localStorage.setItem('access_token', res.access_token);
               const newReq = req.clone({
-                setHeaders: { Authorization: `Bearer ${res.accessToken}` }
+                setHeaders: { Authorization: `Bearer ${res.access_token}` }
               });
               return next.handle(newReq);
             })

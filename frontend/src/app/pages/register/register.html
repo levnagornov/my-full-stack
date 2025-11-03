@@ -1,9 +1,39 @@
-<div>
-  <h3>Register</h3>
-  <input [(ngModel)]="username" placeholder="username" />
-  <br>
-  <input [(ngModel)]="password" placeholder="password" type="password" />
-  <br>
-  <button (click)="submit()">Submit</button>
-  <div>{{msg}}</div>
-</div>
+<section>
+  <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+    <div class="container">
+      <h2>Register</h2>
+      <fieldset>
+        <label>Username: <input [(ngModel)]="formData.username" id="username" name="username" type="text"
+            placeholder="Enter username" class="form-control ng-prestine" #username="ngModel"
+            [class]="{'required': username.invalid && (username.dirty || username.touched), 'valid': username.valid && (username.dirty || username.touched)}"
+            required /></label>
+        <div [hidden]="username.valid || username.untouched" class="validation-error">Username is required</div>
+        <br>
+        <label>Password: <input [(ngModel)]="formData.password" id="password" name="password" type="password"
+            placeholder="Enter password" type="password" class="form-control ng-untouched ng-pristine ng-valid"
+            #passwrod="ngModel"
+            [class]="{'required': passwrod.invalid && (passwrod.dirty || passwrod.touched), 'valid': passwrod.valid && (passwrod.dirty || passwrod.touched)}"
+            required /></label>
+        <div [hidden]="passwrod.valid || passwrod.untouched" class="validation-error">Password is required</div>
+        <br>
+        <label>Repeat password: <input [(ngModel)]="formData.repeatPassword" id="repeatPassword" name="repeatPassword"
+            placeholder="Repeat password" type="password" class="form-control ng-untouched ng-pristine ng-valid"
+            #repeatPassword="ngModel"
+            [class]="{'required': repeatPassword.invalid && (repeatPassword.dirty || repeatPassword.touched), 'valid': repeatPassword.valid && (repeatPassword.dirty || repeatPassword.touched)}"
+            required /></label>
+        <div [hidden]="repeatPassword.valid || repeatPassword.untouched" class="validation-error">Repeat password is required</div>
+        <br [hidden]="repeatPassword.valid || repeatPassword.untouched">
+      </fieldset>
+
+      @if (errorMessage) {
+        <div class="validation-error">{{ errorMessage }}</div>
+        <br>
+      }
+
+      <button type="submit" [disabled]="!loginForm.valid || loading" class="submitbtn">
+        {{ loading ? 'Registering...' :'Submit' }}
+      </button>
+
+    </div>
+  </form>
+</section>

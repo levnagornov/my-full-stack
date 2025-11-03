@@ -2,12 +2,14 @@ from fastapi import HTTPException, Response, Cookie
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from typing import Optional
-
+import logging
 from app.auth import schemas, models
 from app.core import security
 
+logger = logging.getLogger(__name__)
 
 async def register_user(data: schemas.RegisterRequest, session: AsyncSession):
+    logger.info(f"Register request for {data.username}")
     q = await session.execute(select(models.User).where(models.User.username == data.username))
     user = q.scalar_one_or_none()
     if user:
@@ -19,6 +21,7 @@ async def register_user(data: schemas.RegisterRequest, session: AsyncSession):
     )
     session.add(user)
     await session.commit()
+    logger.info(f"New user has been registered: {data.username}")
     return {"detail": "User created"}
 
 
@@ -31,6 +34,7 @@ async def authenticate_user(username: str, password: str, session: AsyncSession)
 
 
 async def login_user(data: schemas.LoginRequest, response: Response, session: AsyncSession):
+    logger.info(f"Login request for username={data.username} password={data.password}")
     user = await authenticate_user(data.username, data.password, session)
     access = security.create_access_token(user.username)
     refresh, jti = security.create_refresh_token(user.username)

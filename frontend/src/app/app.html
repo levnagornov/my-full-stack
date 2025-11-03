@@ -1,18 +1,22 @@
 <div class="navbar">
-  <a routerLink="/home" routerLinkActive="active">Home</a>
+  <a routerLink="/home">Home</a>
   <div class="dropdown">
     <button class="dropbtn">Tasks
       <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-content">
-      <a routerLink="/dry-run" routerLinkActive="active">Dry run</a>
-      <a routerLink="/commit-run" routerLinkActive="active">Commit run</a>
-      <a routerLink="/full-load" routerLinkActive="active">Full load</a>
+      <a routerLink="/dry-run">Dry run</a>
+      <a routerLink="/commit-run">Commit run</a>
+      <a routerLink="/full-load">Full load</a>
     </div>
   </div>
-  <a routerLink="/login" routerLinkActive="active" class="split">Login</a>
-  <a routerLink="/register" routerLinkActive="active" class="split">Register</a>
-  <a routerLink="/profile" routerLinkActive="active" class="split">Profile</a>
+    @if (isLoggedIn$ | async) {
+      <a (click)="logout($event)" class="split">Logout</a>
+      <a routerLink="/profile" class="split">Profile</a>
+    } @else {
+      <a routerLink="/login" class="split">Login</a>
+      <a routerLink="/register" class="split">Register</a>
+    }
 </div>
 
 <router-outlet />

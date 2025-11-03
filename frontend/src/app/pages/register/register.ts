@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -9,22 +10,45 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './register.css'
 })
 export class Register {
-  username = '';
-  password = '';
-  msg = '';
+  errorMessage: string | null = null;
+  loading = false;
 
-  constructor(private auth: AuthService) {}
+  formData = {
+    username: '',
+    password: '',
+    repeatPassword: ''
+  };
 
-  submit() {
-    this.auth.register({username: this.username, password: this.password}).subscribe({
-      next: (res: any) => {
-        const token = res.access_token;
-        this.auth.setAccessToken(token);
-        this.msg = "Registration is successful!"
-      }, 
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
+
+  onSubmit(form: NgForm) {
+    if (form?.invalid) {
+      this.errorMessage = 'Please fix validation errors.';
+      return;
+    }
+
+    if (this.formData.password !== this.formData.repeatPassword) {
+      this.errorMessage = 'Passwords do not match.';
+      return;
+    }
+
+    this.loading = true;
+    this.errorMessage = null;
+    
+    this.authService.register(this.formData).subscribe({
+      next: () => {
+        this.loading = false;
+        this.authService.login(this.formData).subscribe({
+          next: () => this.router.navigate(['/profile']),
+          error: () => this.errorMessage = 'Auto login failed.'
+        });
+      },
       error: (err) => {
-        console.error(err);
-        this.msg = "Registratio failed. " + err.message
+        this.loading = false;
+        this.errorMessage = err.error?.detail || 'Registration failed.';
       }
     });
   }
